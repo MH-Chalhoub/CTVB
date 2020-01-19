@@ -1,0 +1,6 @@
+If (i==0) Then
+
+Dim a as Integer
+Dim b as Integer
+
+End If
