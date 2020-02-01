@@ -703,7 +703,7 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 21 "ctvb.l"
-{ count(); p=(char *)malloc((strlen("CharDouble")+1)*sizeof(char)); strcpy(p,"Char"); yylval.charval=p; return(CHAR); }
+{ count(); p=(char *)malloc((strlen("Char")+1)*sizeof(char)); strcpy(p,"Char"); yylval.charval=p; return(CHAR); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP

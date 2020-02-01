@@ -31,7 +31,7 @@ extern int line;
 
 %type <charval> declarator initializer declaration_specifiers declaration declaration_list
 %type <charval> primary_expression postfix_expression argument_expression_list unary_expression unary_operator cast_expression multiplicative_expression additive_expression shift_expression relational_expression equality_expression and_expression exclusive_or_expression inclusive_or_expression logical_and_expression logical_or_expression conditional_expression assignment_expression assignment_operator expression
-%type <charval> statement compound_statement selection_statement statement_list
+%type <charval> statement compound_statement selection_statement iteration_statement statement_list 
 %type <args> init_declarator_list init_declarator
 
 %code requires {
@@ -213,14 +213,14 @@ declaration
 																							char *declaration;
 																							if($2.arg2 != NULL)
 																							{
-																								//fprintf(vbFPtr, "Dim %s as %s\n%s\n",$2.arg1,$1,$2.arg2);
+																								fprintf(vbFPtr, "Dim %s as %s\n%s\n",$2.arg1,$1,$2.arg2);
 																								declaration=(char *)malloc(((strlen($1)+1)+(strlen($2.arg1)+1)+(strlen($2.arg2)+1)+10)*sizeof(char));
 																								sprintf(declaration, "Dim %s as %s\n%s\n",$2.arg1,$1,$2.arg2);
 																								$$=declaration;
 																							}
 																							else
 																							{
-																								//fprintf(vbFPtr, "Dim %s as %s\n",$2.arg1,$1);
+																								fprintf(vbFPtr, "Dim %s as %s\n",$2.arg1,$1);
 																								declaration=(char *)malloc(((strlen($1)+1)+(strlen($2.arg1)+1)+10)*sizeof(char));
 																								sprintf(declaration, "Dim %s as %s\n",$2.arg1,$1);
 																								$$=declaration;
@@ -489,13 +489,51 @@ selection_statement
 																							free($4);
 																							free($5);
 																						}
-	| IF '(' expression ')' statement ELSE statement									{ printf("selection_statement/IF '(' expression ')' statement ELSE statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| IF '(' expression ')' statement ELSE statement									{
+																							printf("selection_statement/IF '(' expression ')' statement ELSE statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							
+																							/*Allocating space for the expression String*/
+																							char *selection_statement;
+																							fprintf(vbFPtr, "If (%s) Then\n%s\nElse\n%s\nEnd If",$3,$5,$7);
+																							selection_statement=(char *)malloc(((strlen($3)+1)+(strlen($5)+1)+(strlen($7)+1)+30)*sizeof(char));
+																							sprintf(selection_statement, "If (%s) Then\n\n%s\nElse\n%s\nEnd If",$3,$5,$7);
+																							$$=selection_statement;
+																							
+																							/*Unallocate the space used for the terms*/
+																							free($1);
+																							free($2);
+																							free($3);
+																							free($4);
+																							free($5);
+																							free($6);
+																							free($7);
+																							}
 	;
 
 iteration_statement
-	: WHILE '(' expression ')' statement					  							{ printf("iteration_statement/WHILE '(' expression ')' statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| FOR '(' expression_statement expression_statement ')' statement					{ printf("iteration_statement/FOR '(' expression_statement expression_statement ')' statement (Col:%d,Ln:%d)	 %d\n",column+1,line+1,i++); }
-	| FOR '(' expression_statement expression_statement expression ')' statement		{ printf("iteration_statement/FOR '(' expression_statement expression_statement expression ')' statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: WHILE '(' expression ')' statement					  							{ 
+																							printf("iteration_statement/WHILE '(' expression ')' statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							
+																							/*Allocating space for the expression String*/
+																							char *iteration_statement;
+																							//fprintf(vbFPtr, "While (%s) Then\n\n%s\nEnd While",$3,$5);
+																							iteration_statement=(char *)malloc(((strlen($3)+1)+(strlen($5)+1)+30)*sizeof(char));
+																							sprintf(iteration_statement, "While (%s) Then\n\n%s\nEnd While",$3,$5);
+																							$$=iteration_statement;
+																							
+																							/*Unallocate the space used for the terms*/
+																							free($1);
+																							free($2);
+																							free($3);
+																							free($4);
+																							free($5);
+																						}
+	| FOR '(' expression_statement expression_statement ')' statement					{ 
+																							printf("iteration_statement/FOR '(' expression_statement expression_statement ')' statement (Col:%d,Ln:%d)	 %d\n",column+1,line+1,i++); 
+																						}
+	| FOR '(' expression_statement expression_statement expression ')' statement		{ 
+																							printf("iteration_statement/FOR '(' expression_statement expression_statement expression ')' statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																						}
 	;
 
 jump_statement

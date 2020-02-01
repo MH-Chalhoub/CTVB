@@ -598,8 +598,8 @@ static const yytype_uint16 yyrline[] =
      329,   330,   331,   332,   333,   337,   338,   342,   343,   344,
      348,   349,   353,   354,   355,   356,   357,   361,   375,   385,
      395,   412,   432,   433,   451,   452,   470,   471,   475,   492,
-     496,   497,   498,   502,   503,   507,   508,   512,   513,   517,
-     518,   519,   520
+     514,   531,   534,   540,   541,   545,   546,   550,   551,   555,
+     556,   557,   558
 };
 #endif
 
@@ -2235,14 +2235,14 @@ yyreduce:
 																							char *declaration;
 																							if((yyvsp[(2) - (3)].args).arg2 != NULL)
 																							{
-																								//fprintf(vbFPtr, "Dim %s as %s\n%s\n",$2.arg1,$1,$2.arg2);
+																								fprintf(vbFPtr, "Dim %s as %s\n%s\n",(yyvsp[(2) - (3)].args).arg1,(yyvsp[(1) - (3)].charval),(yyvsp[(2) - (3)].args).arg2);
 																								declaration=(char *)malloc(((strlen((yyvsp[(1) - (3)].charval))+1)+(strlen((yyvsp[(2) - (3)].args).arg1)+1)+(strlen((yyvsp[(2) - (3)].args).arg2)+1)+10)*sizeof(char));
 																								sprintf(declaration, "Dim %s as %s\n%s\n",(yyvsp[(2) - (3)].args).arg1,(yyvsp[(1) - (3)].charval),(yyvsp[(2) - (3)].args).arg2);
 																								(yyval.charval)=declaration;
 																							}
 																							else
 																							{
-																								//fprintf(vbFPtr, "Dim %s as %s\n",$2.arg1,$1);
+																								fprintf(vbFPtr, "Dim %s as %s\n",(yyvsp[(2) - (3)].args).arg1,(yyvsp[(1) - (3)].charval));
 																								declaration=(char *)malloc(((strlen((yyvsp[(1) - (3)].charval))+1)+(strlen((yyvsp[(2) - (3)].args).arg1)+1)+10)*sizeof(char));
 																								sprintf(declaration, "Dim %s as %s\n",(yyvsp[(2) - (3)].args).arg1,(yyvsp[(1) - (3)].charval));
 																								(yyval.charval)=declaration;
@@ -2739,7 +2739,7 @@ yyreduce:
 																							
 																							/*Allocating space for the expression String*/
 																							char *selection_statement;
-																							fprintf(vbFPtr, "If (%s) Then\n\n%s\nEnd If",(yyvsp[(3) - (5)].charval),(yyvsp[(5) - (5)].charval));
+																							//fprintf(vbFPtr, "If (%s) Then\n\n%s\nEnd If",$3,$5);
 																							selection_statement=(char *)malloc(((strlen((yyvsp[(3) - (5)].charval))+1)+(strlen((yyvsp[(5) - (5)].charval))+1)+20)*sizeof(char));
 																							sprintf(selection_statement, "If (%s) Then\n\n%s\nEnd If",(yyvsp[(3) - (5)].charval),(yyvsp[(5) - (5)].charval));
 																							(yyval.charval)=selection_statement;
@@ -2757,97 +2757,135 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 492 "ctvb.y"
-    { printf("selection_statement/IF '(' expression ')' statement ELSE statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+    {
+																							printf("selection_statement/IF '(' expression ')' statement ELSE statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							
+																							/*Allocating space for the expression String*/
+																							char *selection_statement;
+																							fprintf(vbFPtr, "If (%s) Then\n%s\nElse\n%s\nEnd If",(yyvsp[(3) - (7)].charval),(yyvsp[(5) - (7)].charval),(yyvsp[(7) - (7)].charval));
+																							selection_statement=(char *)malloc(((strlen((yyvsp[(3) - (7)].charval))+1)+(strlen((yyvsp[(5) - (7)].charval))+1)+(strlen((yyvsp[(7) - (7)].charval))+1)+30)*sizeof(char));
+																							sprintf(selection_statement, "If (%s) Then\n\n%s\nElse\n%s\nEnd If",(yyvsp[(3) - (7)].charval),(yyvsp[(5) - (7)].charval),(yyvsp[(7) - (7)].charval));
+																							(yyval.charval)=selection_statement;
+																							
+																							/*Unallocate the space used for the terms*/
+																							free((yyvsp[(1) - (7)].charval));
+																							free((yyvsp[(2) - (7)].charval));
+																							free((yyvsp[(3) - (7)].charval));
+																							free((yyvsp[(4) - (7)].charval));
+																							free((yyvsp[(5) - (7)].charval));
+																							free((yyvsp[(6) - (7)].charval));
+																							free((yyvsp[(7) - (7)].charval));
+																							}
     break;
 
   case 120:
 
 /* Line 1455 of yacc.c  */
-#line 496 "ctvb.y"
-    { printf("iteration_statement/WHILE '(' expression ')' statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+#line 514 "ctvb.y"
+    { 
+																							printf("iteration_statement/WHILE '(' expression ')' statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							
+																							/*Allocating space for the expression String*/
+																							char *iteration_statement;
+																							//fprintf(vbFPtr, "While (%s) Then\n\n%s\nEnd While",$3,$5);
+																							iteration_statement=(char *)malloc(((strlen((yyvsp[(3) - (5)].charval))+1)+(strlen((yyvsp[(5) - (5)].charval))+1)+30)*sizeof(char));
+																							sprintf(iteration_statement, "While (%s) Then\n\n%s\nEnd While",(yyvsp[(3) - (5)].charval),(yyvsp[(5) - (5)].charval));
+																							(yyval.charval)=iteration_statement;
+																							
+																							/*Unallocate the space used for the terms*/
+																							free((yyvsp[(1) - (5)].charval));
+																							free((yyvsp[(2) - (5)].charval));
+																							free((yyvsp[(3) - (5)].charval));
+																							free((yyvsp[(4) - (5)].charval));
+																							free((yyvsp[(5) - (5)].charval));
+																						}
     break;
 
   case 121:
 
 /* Line 1455 of yacc.c  */
-#line 497 "ctvb.y"
-    { printf("iteration_statement/FOR '(' expression_statement expression_statement ')' statement (Col:%d,Ln:%d)	 %d\n",column+1,line+1,i++); }
+#line 531 "ctvb.y"
+    { 
+																							printf("iteration_statement/FOR '(' expression_statement expression_statement ')' statement (Col:%d,Ln:%d)	 %d\n",column+1,line+1,i++); 
+																						}
     break;
 
   case 122:
 
 /* Line 1455 of yacc.c  */
-#line 498 "ctvb.y"
-    { printf("iteration_statement/FOR '(' expression_statement expression_statement expression ')' statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+#line 534 "ctvb.y"
+    { 
+																							printf("iteration_statement/FOR '(' expression_statement expression_statement expression ')' statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																						}
     break;
 
   case 123:
 
 /* Line 1455 of yacc.c  */
-#line 502 "ctvb.y"
+#line 540 "ctvb.y"
     { printf("jump_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
     break;
 
   case 125:
 
 /* Line 1455 of yacc.c  */
-#line 507 "ctvb.y"
+#line 545 "ctvb.y"
     { printf("translation_unit/external_declaration (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
     break;
 
   case 126:
 
 /* Line 1455 of yacc.c  */
-#line 508 "ctvb.y"
+#line 546 "ctvb.y"
     { printf("translation_unit/translation_unit external_declaration (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
     break;
 
   case 127:
 
 /* Line 1455 of yacc.c  */
-#line 512 "ctvb.y"
+#line 550 "ctvb.y"
     { printf("external_declaration/function_definition (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
     break;
 
   case 128:
 
 /* Line 1455 of yacc.c  */
-#line 513 "ctvb.y"
+#line 551 "ctvb.y"
     { printf("external_declaration/declaration (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
     break;
 
   case 129:
 
 /* Line 1455 of yacc.c  */
-#line 517 "ctvb.y"
+#line 555 "ctvb.y"
     { printf("function_definition/eclaration_specifiers declarator declaration_list compound_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
     break;
 
   case 130:
 
 /* Line 1455 of yacc.c  */
-#line 518 "ctvb.y"
+#line 556 "ctvb.y"
     { printf("function_definition/declaration_specifiers declarator compound_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
     break;
 
   case 131:
 
 /* Line 1455 of yacc.c  */
-#line 519 "ctvb.y"
+#line 557 "ctvb.y"
     { printf("function_definition/declarator declaration_list compound_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
     break;
 
   case 132:
 
 /* Line 1455 of yacc.c  */
-#line 520 "ctvb.y"
+#line 558 "ctvb.y"
     { printf("function_definition/declarator compound_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 2851 "y.tab.c"
+#line 2889 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -3059,7 +3097,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 523 "ctvb.y"
+#line 561 "ctvb.y"
 
 void yyerror(char *s)
 {  
