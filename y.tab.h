@@ -35,7 +35,7 @@
 /* "%code requires" blocks.  */
 
 /* Line 1676 of yacc.c  */
-#line 161 "ctvb.y"
+#line 162 "ctvb.y"
 
     typedef struct node {
         char * arg1;
@@ -146,11 +146,11 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 152 "ctvb.y"
+#line 153 "ctvb.y"
  char* charval;
 
 /* Line 1676 of yacc.c  */
-#line 171 "ctvb.y"
+#line 172 "ctvb.y"
 
     Args args;
 

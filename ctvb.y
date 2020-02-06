@@ -141,6 +141,7 @@ int yylex(void);
 int sym[26];
 int i=0;
 FILE *vbFPtr;
+FILE *logFPtr;
 extern int column;
 extern int line;
 
@@ -187,19 +188,19 @@ extern int line;
 %%
 
 primary_expression                                                                                                                                                                
-	: IDENTIFIER																		{ printf("primary_expression/IDENTIFIER (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }        
-	| CONSTANT																			{ printf("primary_expression/CONSTANT (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }          
-	| STRING_LITERAL																	{ printf("primary_expression/STRING_LITERAL (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }    
+	: IDENTIFIER																		{ fprintf(logFPtr,"primary_expression/IDENTIFIER (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }        
+	| CONSTANT																			{ fprintf(logFPtr,"primary_expression/CONSTANT (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }          
+	| STRING_LITERAL																	{ fprintf(logFPtr,"primary_expression/STRING_LITERAL (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }    
 	| '(' expression ')'																{ 
-																							printf("primary_expression/'(' expression ')' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"primary_expression/'(' expression ')' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							$$=$2;
 																						}
 	;
 
 postfix_expression
-	: primary_expression																{ printf("postfix_expression/primary_expression (Col:%d,Ln:%d) %d\n",i++,column+1,line+1); }
+	: primary_expression																{ fprintf(logFPtr,"postfix_expression/primary_expression (Col:%d,Ln:%d) %d\n",i++,column+1,line+1); }
 	| postfix_expression '[' expression ']'												{
-																							printf("postfix_expression/postfix_expression '[' expression ']' (Col:%d,Ln:%d)	 %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"postfix_expression/postfix_expression '[' expression ']' (Col:%d,Ln:%d)	 %d\n",column+1,line+1,i++); 
 																																													
 																							/*Allocating space for the expression String*/
 																							char *postfix_expression;
@@ -216,7 +217,7 @@ postfix_expression
 																							$$=postfix_expression;
 																						}
 	| postfix_expression '(' ')'														{
-																							printf("postfix_expression/postfix_expression '(' ')' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"postfix_expression/postfix_expression '(' ')' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																																													
 																							/*Allocating space for the expression String*/
 																							char *postfix_expression;
@@ -232,7 +233,7 @@ postfix_expression
 																							$$=postfix_expression;
 																						}
 	| postfix_expression '(' argument_expression_list ')'								{
-																							printf("postfix_expression/postfix_expression '(' argument_expression_list ')' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"postfix_expression/postfix_expression '(' argument_expression_list ')' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																																													
 																							/*Allocating space for the expression String*/
 																							char *postfix_expression;
@@ -249,7 +250,7 @@ postfix_expression
 																							$$=postfix_expression;
 																						}
 	| postfix_expression INC_OP															{
-																							printf("postfix_expression/postfix_expression INC_OP (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"postfix_expression/postfix_expression INC_OP (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																																													
 																							/*Allocating space for the expression String*/
 																							char *postfix_expression;
@@ -264,7 +265,7 @@ postfix_expression
 																							$$=postfix_expression;
 																						}
 	| postfix_expression DEC_OP															{
-																							printf("postfix_expression/postfix_expression DEC_OP (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"postfix_expression/postfix_expression DEC_OP (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																																													
 																							/*Allocating space for the expression String*/
 																							char *postfix_expression;
@@ -281,14 +282,14 @@ postfix_expression
 	;	
 
 argument_expression_list
-	: assignment_expression																{ printf("argument_expression_list/assignment_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| argument_expression_list ',' assignment_expression								{ printf("argument_expression_list/argument_expression_list ',' assignment_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: assignment_expression																{ fprintf(logFPtr,"argument_expression_list/assignment_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| argument_expression_list ',' assignment_expression								{ fprintf(logFPtr,"argument_expression_list/argument_expression_list ',' assignment_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	;
 
 unary_expression
-	: postfix_expression																{ printf("unary_expression/postfix_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: postfix_expression																{ fprintf(logFPtr,"unary_expression/postfix_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	| INC_OP unary_expression															{ 
-																							printf("unary_expression/INC_OP unary_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"unary_expression/INC_OP unary_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																																													
 																							/*Allocating space for the expression String*/
 																							char *unary_expression;
@@ -303,7 +304,7 @@ unary_expression
 																							$$=unary_expression;
 																						}
 	| DEC_OP unary_expression															{ 
-																							printf("unary_expression/DEC_OP unary_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"unary_expression/DEC_OP unary_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																																													
 																							/*Allocating space for the expression String*/
 																							char *unary_expression;
@@ -318,152 +319,152 @@ unary_expression
 																							$$=unary_expression;
 																						}
 	| unary_operator cast_expression													{ 
-																							printf("unary_expression/unary_operator cast_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"unary_expression/unary_operator cast_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																						}
 	| SIZEOF unary_expression															{ 
-																							printf("unary_expression/SIZEOF unary_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"unary_expression/SIZEOF unary_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																						}
 	;
 
 unary_operator
-	: '&'																				{ printf("unary_operator/'&' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| '*'																				{ printf("unary_operator/'*' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| '+'																				{ printf("unary_operator/'+' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| '-'																				{ printf("unary_operator/'-' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| '~'																				{ printf("unary_operator/'~' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| '!'																				{ printf("unary_operator/'!' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: '&'																				{ fprintf(logFPtr,"unary_operator/'&' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| '*'																				{ fprintf(logFPtr,"unary_operator/'*' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| '+'																				{ fprintf(logFPtr,"unary_operator/'+' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| '-'																				{ fprintf(logFPtr,"unary_operator/'-' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| '~'																				{ fprintf(logFPtr,"unary_operator/'~' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| '!'																				{ fprintf(logFPtr,"unary_operator/'!' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	;
 
 cast_expression
-	: unary_expression																	{ printf("cast_expression/unary_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: unary_expression																	{ fprintf(logFPtr,"cast_expression/unary_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	;
 
 multiplicative_expression
 	: cast_expression																	{ 
-																							printf("multiplicative_expression/cast_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"multiplicative_expression/cast_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																						}
 	| multiplicative_expression '*' cast_expression										{ 
-																							printf("multiplicative_expression/multiplicative_expression '*' cast_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"multiplicative_expression/multiplicative_expression '*' cast_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							$$=transform_expression($1,$2,$3);
 																						}
 	| multiplicative_expression '/' cast_expression										{ 
-																							printf("multiplicative_expression/multiplicative_expression '/' cast_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"multiplicative_expression/multiplicative_expression '/' cast_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							$$=transform_expression($1,$2,$3);
 																						}
 	| multiplicative_expression '%' cast_expression										{ 
-																							printf("multiplicative_expression/multiplicative_expression '%' cast_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"multiplicative_expression/multiplicative_expression '%' cast_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							$$=transform_expression($1,$2,$3);
 																						}
 	;
 
 additive_expression
 	: multiplicative_expression															{
-																							printf("additive_expression/multiplicative_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"additive_expression/multiplicative_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																						}
 	| additive_expression '+' multiplicative_expression									{ 
-																							printf("additive_expression/additive_expression '+' multiplicative_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"additive_expression/additive_expression '+' multiplicative_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							$$=transform_expression($1,$2,$3);
 																						}
 	| additive_expression '-' multiplicative_expression									{ 
-																							printf("additive_expression/additive_expression '-' multiplicative_expression (Col:%d,Ln:%d)	 %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"additive_expression/additive_expression '-' multiplicative_expression (Col:%d,Ln:%d)	 %d\n",column+1,line+1,i++); 
 																							$$=transform_expression($1,$2,$3);
 																						}
 	;
 
 shift_expression
-	: additive_expression																{ printf("shift_expression/additive_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: additive_expression																{ fprintf(logFPtr,"shift_expression/additive_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	;
 
 relational_expression
 	: shift_expression																	{ 
-																							printf("relational_expression/shift_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"relational_expression/shift_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																						}
 	| relational_expression '<' shift_expression										{ 
-																							printf("relational_expression/relational_expression '<' shift_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"relational_expression/relational_expression '<' shift_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							$$=transform_expression($1,$2,$3);
 																						}
 	| relational_expression '>' shift_expression										{ 
-																							printf("relational_expression/relational_expression '>' shift_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"relational_expression/relational_expression '>' shift_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							$$=transform_expression($1,$2,$3);
 																						}
 	| relational_expression LE_OP shift_expression										{ 
-																							printf("relational_expression/relational_expression LE_OP shift_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"relational_expression/relational_expression LE_OP shift_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							$$=transform_expression($1,$2,$3);
 																						}
 	| relational_expression GE_OP shift_expression										{ 
-																							printf("relational_expression/relational_expression GE_OP shift_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"relational_expression/relational_expression GE_OP shift_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							$$=transform_expression($1,$2,$3);
 																						}
 	;
 
 equality_expression
-	: relational_expression																{ printf("equality_expression/relational_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: relational_expression																{ fprintf(logFPtr,"equality_expression/relational_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	| equality_expression EQ_OP relational_expression									{
-																							printf("equality_expression/equality_expression EQ_OP relational_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
+																							fprintf(logFPtr,"equality_expression/equality_expression EQ_OP relational_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
 																							$$=transform_expression($1,$2,$3);
 																						}
 	| equality_expression NE_OP relational_expression									{ 
-																							printf("equality_expression/equality_expression NE_OP relational_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
+																							fprintf(logFPtr,"equality_expression/equality_expression NE_OP relational_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
 																							$$=transform_expression($1,$2,$3);
 																						}
 	;
 
 and_expression
 	: equality_expression																{ 
-																							printf("and_expression/equality_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"and_expression/equality_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																						}
 	| and_expression '&' equality_expression											{ 
-																							printf("and_expression/and_expression '&' equality_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"and_expression/and_expression '&' equality_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							$$=transform_expression($1,$2,$3);
 																						}
 	;
 
 exclusive_or_expression
 	: and_expression																	{ 
-																							printf("exclusive_or_expression/and_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"exclusive_or_expression/and_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																						}
 	| exclusive_or_expression '^' and_expression										{ 
-																							printf("exclusive_or_expression/exclusive_or_expression '^' and_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"exclusive_or_expression/exclusive_or_expression '^' and_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							$$=transform_expression($1,$2,$3);
 																						}
 	;
 
 inclusive_or_expression
 	: exclusive_or_expression															{ 
-																							printf("inclusive_or_expression/exclusive_or_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"inclusive_or_expression/exclusive_or_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																						}
 	| inclusive_or_expression '|' exclusive_or_expression								{ 
-																							printf("inclusive_or_expression/inclusive_or_expression '|' exclusive_or_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"inclusive_or_expression/inclusive_or_expression '|' exclusive_or_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							$$=transform_expression($1,$2,$3);
 																						}
 	;
 
 logical_and_expression
 	: inclusive_or_expression															{ 
-																							printf("logical_and_expression/inclusive_or_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
+																							fprintf(logFPtr,"logical_and_expression/inclusive_or_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
 																						}
 	| logical_and_expression AND_OP inclusive_or_expression								{ 
-																							printf("logical_and_expression/logical_and_expression AND_OP inclusive_or_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"logical_and_expression/logical_and_expression AND_OP inclusive_or_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							$$=transform_expression($1,$2,$3);
 																						}
 	;
 
 logical_or_expression
 	: logical_and_expression															{ 
-																							printf("logical_or_expression/logical_and_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"logical_or_expression/logical_and_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																						}
 	| logical_or_expression OR_OP logical_and_expression								{ 
-																							printf("logical_or_expression/logical_or_expression OR_OP logical_and_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"logical_or_expression/logical_or_expression OR_OP logical_and_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							$$=transform_expression($1,$2,$3);
 																						}
 	;
 
 conditional_expression
 	: logical_or_expression																{ 
-																							printf("conditional_expression/logical_or_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"conditional_expression/logical_or_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																						}
 	| logical_or_expression '?' expression ':' conditional_expression					{ 
-																							printf("conditional_expression/logical_or_expression '?' expression ':' conditional_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"conditional_expression/logical_or_expression '?' expression ':' conditional_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																																													
 																							/*Allocating space for the expression String*/
 																							char *conditional_expression;
@@ -484,10 +485,10 @@ conditional_expression
 
 assignment_expression
 	: conditional_expression															{ 
-																							printf("assignment_expression/conditional_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"assignment_expression/conditional_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																						}
 	| unary_expression assignment_operator assignment_expression						{ 
-																							printf("assignment_expression/unary_expression assignment_operator assignment_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 	
+																							fprintf(logFPtr,"assignment_expression/unary_expression assignment_operator assignment_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 	
 																							
 																							/*Allocating space for the expression String*/
 																							char *assignment_expression;
@@ -505,23 +506,23 @@ assignment_expression
 	;
 
 assignment_operator
-	: '='																				{ printf("assignment_operator/'=' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| MUL_ASSIGN																		{ printf("assignment_operator/MUL_ASSIGN (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| DIV_ASSIGN																		{ printf("assignment_operator/DIV_ASSIGN (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| MOD_ASSIGN																		{ printf("assignment_operator/MOD_ASSIGN (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| ADD_ASSIGN																		{ printf("assignment_operator/ADD_ASSIGN (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| SUB_ASSIGN																		{ printf("assignment_operator/SUB_ASSIGN (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| LEFT_ASSIGN																		{ printf("assignment_operator/LEFT_ASSIGN (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| RIGHT_ASSIGN																		{ printf("assignment_operator/RIGHT_ASSIGN (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| AND_ASSIGN																		{ printf("assignment_operator/AND_ASSIGN (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| XOR_ASSIGN																		{ printf("assignment_operator/XOR_ASSIGN (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| OR_ASSIGN																			{ printf("assignment_operator/OR_ASSIGN (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: '='																				{ fprintf(logFPtr,"assignment_operator/'=' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| MUL_ASSIGN																		{ fprintf(logFPtr,"assignment_operator/MUL_ASSIGN (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| DIV_ASSIGN																		{ fprintf(logFPtr,"assignment_operator/DIV_ASSIGN (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| MOD_ASSIGN																		{ fprintf(logFPtr,"assignment_operator/MOD_ASSIGN (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| ADD_ASSIGN																		{ fprintf(logFPtr,"assignment_operator/ADD_ASSIGN (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| SUB_ASSIGN																		{ fprintf(logFPtr,"assignment_operator/SUB_ASSIGN (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| LEFT_ASSIGN																		{ fprintf(logFPtr,"assignment_operator/LEFT_ASSIGN (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| RIGHT_ASSIGN																		{ fprintf(logFPtr,"assignment_operator/RIGHT_ASSIGN (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| AND_ASSIGN																		{ fprintf(logFPtr,"assignment_operator/AND_ASSIGN (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| XOR_ASSIGN																		{ fprintf(logFPtr,"assignment_operator/XOR_ASSIGN (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| OR_ASSIGN																			{ fprintf(logFPtr,"assignment_operator/OR_ASSIGN (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	;
 
 expression
-	: assignment_expression																{ printf("expression/assignment_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: assignment_expression																{ fprintf(logFPtr,"expression/assignment_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	| expression ',' assignment_expression												{
-																							printf("expression/expression ',' assignment_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
+																							fprintf(logFPtr,"expression/expression ',' assignment_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
 
 																							char *expression;
 																							expression=(char *)malloc(((strlen($1)+1)+(strlen($3)+1)+3)*sizeof(char));
@@ -538,9 +539,9 @@ expression
 	;
 
 declaration
-	: declaration_specifiers ';'														{ printf("declaration/declaration_specifiers ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: declaration_specifiers ';'														{ fprintf(logFPtr,"declaration/declaration_specifiers ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	| declaration_specifiers init_declarator_list ';'									{
-																							printf("declaration/declaration_specifiers init_declarator_list ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
+																							fprintf(logFPtr,"declaration/declaration_specifiers init_declarator_list ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
 																							char *declaration;
 																							if($2.arg2 != NULL)
 																							{
@@ -561,25 +562,25 @@ declaration
 
 declaration_specifiers
 	: type_specifier																	{
-																							printf("declaration_specifiers/type_specifier (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
+																							fprintf(logFPtr,"declaration_specifiers/type_specifier (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
 																						}
 	| type_specifier declaration_specifiers												{
-																							printf("declaration_specifiers/type_specifier declaration_specifiers (Col:%d,Ln:%d)	 %d\n",column+1,line+1,i++);
+																							fprintf(logFPtr,"declaration_specifiers/type_specifier declaration_specifiers (Col:%d,Ln:%d)	 %d\n",column+1,line+1,i++);
 																						}
 	| type_qualifier																	{
-																							printf("declaration_specifiers/type_qualifier (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"declaration_specifiers/type_qualifier (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																						}
 	| type_qualifier declaration_specifiers												{ 
-																							printf("declaration_specifiers/type_qualifier declaration_specifiers (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
+																							fprintf(logFPtr,"declaration_specifiers/type_qualifier declaration_specifiers (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
 																						}
 	;
 
 init_declarator_list
 	: init_declarator																	{ 
-																							printf("init_declarator_list/init_declarator (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
+																							fprintf(logFPtr,"init_declarator_list/init_declarator (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
 																						}
 	| init_declarator_list ',' init_declarator											{ 
-																							printf("init_declarator_list/init_declarator_list ',' init_declarator (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
+																							fprintf(logFPtr,"init_declarator_list/init_declarator_list ',' init_declarator (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
 																							char *vars, *assignments;
 																							int varsSize=0,assignmentsSize=0;
 																							varsSize+=(strlen($1.arg1)+1) + (strlen($3.arg1)+1);
@@ -614,11 +615,11 @@ init_declarator_list
 
 init_declarator
 	: declarator																		{ 
-																							printf("init_declarator/declarator (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
+																							fprintf(logFPtr,"init_declarator/declarator (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
 																							Args a = {$1,NULL,NULL};
 																							$$ = a; }
 	| declarator '=' initializer														{
-																							printf("init_declarator/declarator '=' initializer (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
+																							fprintf(logFPtr,"init_declarator/declarator '=' initializer (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
 																							/*Allocating space for the assignment String*/
 																							char *assignment;
 																							assignment=(char *)malloc(((strlen($1)+1)+(strlen($2)+1)+(strlen($3)+1))*sizeof(char));
@@ -637,61 +638,61 @@ init_declarator
 	;
 
 type_specifier
-	: VOID																				{ printf("type_specifier/VOID (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| CHAR																				{ printf("type_specifier/CHAR (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| SHORT																				{ printf("type_specifier/SHORT (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| INT																				{ printf("type_specifier/INT (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| LONG																				{ printf("type_specifier/LONG (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| FLOAT																				{ printf("type_specifier/FLOAT (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| DOUBLE																			{ printf("type_specifier/DOUBLE (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| SIGNED																			{ printf("type_specifier/SIGNED (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| UNSIGNED																			{ printf("type_specifier/UNSIGNED (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: VOID																				{ fprintf(logFPtr,"type_specifier/VOID (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| CHAR																				{ fprintf(logFPtr,"type_specifier/CHAR (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| SHORT																				{ fprintf(logFPtr,"type_specifier/SHORT (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| INT																				{ fprintf(logFPtr,"type_specifier/INT (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| LONG																				{ fprintf(logFPtr,"type_specifier/LONG (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| FLOAT																				{ fprintf(logFPtr,"type_specifier/FLOAT (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| DOUBLE																			{ fprintf(logFPtr,"type_specifier/DOUBLE (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| SIGNED																			{ fprintf(logFPtr,"type_specifier/SIGNED (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| UNSIGNED																			{ fprintf(logFPtr,"type_specifier/UNSIGNED (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	;
 
 type_qualifier
-	: CONST																				{ printf("type_qualifier/CONST (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: CONST																				{ fprintf(logFPtr,"type_qualifier/CONST (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	;
 
 declarator
-	: direct_declarator																	{ printf("declarator/direct_declarator (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: direct_declarator																	{ fprintf(logFPtr,"declarator/direct_declarator (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	;
 
 direct_declarator
-	: IDENTIFIER																		{ printf("direct_declarator/IDENTIFIER (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| '(' declarator ')'																{ printf("direct_declarator/'(' declarator ')' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| direct_declarator '[' ']'															{ printf("direct_declarator/direct_declarator '[' ']' (Col:%d,Ln:%d)	 %d\n",column+1,line+1,i++); }
-	| direct_declarator '(' identifier_list ')'											{ printf("direct_declarator/direct_declarator '(' identifier_list ')' (Col:%d,Ln:%d)	 %d\n",column+1,line+1,i++); }
-	| direct_declarator '(' ')'															{ printf("direct_declarator/direct_declarator '(' ')' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: IDENTIFIER																		{ fprintf(logFPtr,"direct_declarator/IDENTIFIER (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| '(' declarator ')'																{ fprintf(logFPtr,"direct_declarator/'(' declarator ')' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| direct_declarator '[' ']'															{ fprintf(logFPtr,"direct_declarator/direct_declarator '[' ']' (Col:%d,Ln:%d)	 %d\n",column+1,line+1,i++); }
+	| direct_declarator '(' identifier_list ')'											{ fprintf(logFPtr,"direct_declarator/direct_declarator '(' identifier_list ')' (Col:%d,Ln:%d)	 %d\n",column+1,line+1,i++); }
+	| direct_declarator '(' ')'															{ fprintf(logFPtr,"direct_declarator/direct_declarator '(' ')' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	;
 
 identifier_list
-	: IDENTIFIER																		{ printf("identifier_list/IDENTIFIER (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| identifier_list ',' IDENTIFIER													{ printf("identifier_list/identifier_list ',' IDENTIFIER (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: IDENTIFIER																		{ fprintf(logFPtr,"identifier_list/IDENTIFIER (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| identifier_list ',' IDENTIFIER													{ fprintf(logFPtr,"identifier_list/identifier_list ',' IDENTIFIER (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	;
 
 initializer
-	: assignment_expression																{ printf("initializer/assignment_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| '{' initializer_list '}'															{ printf("initializer/'{' initializer_list '}' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: assignment_expression																{ fprintf(logFPtr,"initializer/assignment_expression (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| '{' initializer_list '}'															{ fprintf(logFPtr,"initializer/'{' initializer_list '}' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	;
 
 initializer_list
-	: initializer																		{ printf("initializer_list/initializer (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| initializer_list ',' initializer													{ printf("initializer_list/initializer_list ',' initializer (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: initializer																		{ fprintf(logFPtr,"initializer_list/initializer (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| initializer_list ',' initializer													{ fprintf(logFPtr,"initializer_list/initializer_list ',' initializer (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	;
 
 statement
-	: compound_statement																{ printf("statement/compound_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| expression_statement																{ printf("statement/expression_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| selection_statement																{ printf("statement/selection_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| iteration_statement																{ printf("statement/iteration_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| jump_statement																	{ printf("statement/jump_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| printf_statment																	{ printf("statement/printf_statment (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| scanf_statment																	{ printf("statement/scanf_statment (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: compound_statement																{ fprintf(logFPtr,"statement/compound_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| expression_statement																{ fprintf(logFPtr,"statement/expression_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| selection_statement																{ fprintf(logFPtr,"statement/selection_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| iteration_statement																{ fprintf(logFPtr,"statement/iteration_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| jump_statement																	{ fprintf(logFPtr,"statement/jump_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| printf_statment																	{ fprintf(logFPtr,"statement/printf_statment (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| scanf_statment																	{ fprintf(logFPtr,"statement/scanf_statment (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	;
 
 compound_statement
 	: '{' '}'																			{ 
-																							printf("compound_statement/'{' '}' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"compound_statement/'{' '}' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							/*Allocating space for the expression String*/
 																							char *empty_statment;
 																							empty_statment=(char *)malloc(sizeof(char));
@@ -705,7 +706,7 @@ compound_statement
 																							$$ = empty_statment;
 																						}
 	| '{' statement_list '}'															{
-																							printf("compound_statement/'{' statement_list '}' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"compound_statement/'{' statement_list '}' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
 																							/*Unallocate the space used for inused term*/
 																							free($1);
@@ -716,7 +717,7 @@ compound_statement
 																							free($2);
 																						}
 	| '{' declaration_list '}'															{ 
-																							printf("compound_statement/'{' declaration_list '}' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
+																							fprintf(logFPtr,"compound_statement/'{' declaration_list '}' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
 																							
 																							/*Unallocate the space used for the second and the third term*/
 																							free($1);
@@ -727,7 +728,7 @@ compound_statement
 																							free($2);
 																						}
 	| '{' declaration_list statement_list '}'											{ 
-																							printf("compound_statement/'{' declaration_list statement_list '}' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"compound_statement/'{' declaration_list statement_list '}' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
 																							/*Allocating space for the expression String*/
 																							char *declaration_statement_list;
@@ -745,7 +746,7 @@ compound_statement
 																							free(declaration_statement_list);
 																						}
 	| '{' statement_list declaration_list '}'											{
-																							printf("compound_statement/'{' statement_list declaration_list '}' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"compound_statement/'{' statement_list declaration_list '}' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
 																							/*Allocating space for the expression String*/
 																							char *statement_declaration_list;
@@ -765,9 +766,9 @@ compound_statement
 	;
 
 declaration_list
-	: declaration																		{ printf("declaration_list/declaration (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: declaration																		{ fprintf(logFPtr,"declaration_list/declaration (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	| declaration_list declaration														{
-																							printf("declaration_list/declaration_list declaration (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
+																							fprintf(logFPtr,"declaration_list/declaration_list declaration (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
 																							/*Allocating space for the expression String*/
 																							char *declaration_list;
 																							declaration_list=(char *)malloc(((strlen($1)+1)+(strlen($2)+1))*sizeof(char));
@@ -784,9 +785,9 @@ declaration_list
 	;
 
 statement_list
-	: statement																			{ printf("statement_list/statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: statement																			{ fprintf(logFPtr,"statement_list/statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	| statement_list statement															{ 
-																							printf("statement_list/statement_list statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"statement_list/statement_list statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							/*Allocating space for the expression String*/
 																							char *statement_list;
 																							statement_list=(char *)malloc(((strlen($1)+1)+(strlen($2)+1))*sizeof(char));
@@ -804,19 +805,19 @@ statement_list
 
 expression_statement
 	: ';'																				{
-																							printf("expression_statement/';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"expression_statement/';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							free($1);
 																							$$="";
 																						}
 	| expression ';'																	{
-																							printf("expression_statement/expression ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"expression_statement/expression ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							free($2);
 																						}
 	;
 
 selection_statement
 	: IF '(' expression ')' statement													{ 
-																							printf("selection_statement/IF '(' expression ')' statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"selection_statement/IF '(' expression ')' statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
 																							/*Allocating space for the expression String*/
 																							char *selection_statement;
@@ -834,7 +835,7 @@ selection_statement
 																							free($5);
 																						}
 	| IF '(' expression ')' statement ELSE statement									{
-																							printf("selection_statement/IF '(' expression ')' statement ELSE statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"selection_statement/IF '(' expression ')' statement ELSE statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
 																							/*Allocating space for the expression String*/
 																							char *selection_statement;
@@ -856,7 +857,7 @@ selection_statement
 
 iteration_statement
 	: WHILE '(' expression ')' statement					  							{ 
-																							printf("iteration_statement/WHILE '(' expression ')' statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"iteration_statement/WHILE '(' expression ')' statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
 																							/*Allocating space for the expression String*/
 																							char *iteration_statement;
@@ -873,7 +874,7 @@ iteration_statement
 																							free($5);
 																						}
 	| FOR '(' expression_statement expression_statement ')' statement					{ 
-																							printf("iteration_statement/FOR '(' expression_statement expression_statement ')' statement (Col:%d,Ln:%d)	 %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"iteration_statement/FOR '(' expression_statement expression_statement ')' statement (Col:%d,Ln:%d)	 %d\n",column+1,line+1,i++); 
 																							
 																							/*Allocating space for the expression String*/
 																							char *iteration_statement;
@@ -899,7 +900,7 @@ iteration_statement
 																							free($6);
 																						}
 	| FOR '(' expression_statement expression_statement expression ')' statement		{ 
-																							printf("iteration_statement/FOR '(' expression_statement expression_statement expression ')' statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"iteration_statement/FOR '(' expression_statement expression_statement expression ')' statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
 																							/*Allocating space for the expression String*/
 																							char *iteration_statement;
@@ -930,7 +931,7 @@ iteration_statement
 
 printf_statment
 	: PRINTF '(' STRING_LITERAL arg_list ')' ';'										{ 
-																							printf("printf_statment/PRINTF '(' STRING_LITERAL arg_list ')' ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"printf_statment/PRINTF '(' STRING_LITERAL arg_list ')' ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
 																							/*Allocating space for the expression String*/
 																							char *printf_statment;
@@ -948,7 +949,7 @@ printf_statment
 																							free($6);
 																						}
 	| PRINTF '(' STRING_LITERAL ')' ';'													{ 
-																							printf("printf_statment/PRINTF '(' STRING_LITERAL arg_list ')' ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"printf_statment/PRINTF '(' STRING_LITERAL arg_list ')' ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
 																							/*Allocating space for the expression String*/
 																							char *printf_statment;
@@ -968,7 +969,7 @@ printf_statment
 
 scanf_statment
 	: SCANF '(' STRING_LITERAL ',' IDENTIFIER ')' ';'									{ 
-																							printf("scanf_statment/SCANF '(' STRING_LITERAL ',' IDENTIFIER ')' ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"scanf_statment/SCANF '(' STRING_LITERAL ',' IDENTIFIER ')' ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
 																							/*Allocating space for the expression String*/
 																							char *scanf_statment;
@@ -989,7 +990,7 @@ scanf_statment
 	
 arg_list
 	: ',' IDENTIFIER						  											{ 
-																							printf("arg_list/',' IDENTIFIER (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"arg_list/',' IDENTIFIER (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
 																							/*Allocating space for the expression String*/
 																							char *arg_list;
@@ -1002,7 +1003,7 @@ arg_list
 																							free($2);
 																						}
 	| arg_list ',' IDENTIFIER						  									{ 
-																							printf("arg_list/arg_list ',' IDENTIFIER (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"arg_list/arg_list ',' IDENTIFIER (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
 																							/*Allocating space for the expression String*/
 																							char *arg_list;
@@ -1018,14 +1019,14 @@ arg_list
 
 jump_statement
 	: RETURN ';'						  												{ 
-																							printf("jump_statement/RETURN ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"jump_statement/RETURN ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							char *jump_statement;
 																							jump_statement=(char *)malloc(sizeof(char));
 																							strcpy(jump_statement,"");
 																							$$=jump_statement;
 																						}
 	| RETURN expression ';'			  													{ 
-																							printf("jump_statement/RETURN expression ';'	 (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"jump_statement/RETURN expression ';'	 (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							char *jump_statement;
 																							jump_statement=(char *)malloc(sizeof(char));
 																							strcpy(jump_statement,"");
@@ -1035,19 +1036,21 @@ jump_statement
 
 translation_unit
 	: external_declaration																{ 
-																							printf("translation_unit/external_declaration (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"translation_unit/external_declaration (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							fprintf(vbFPtr, "%s\n",$1);
+																							printf("%s\n",$1);
 																						}
 	| translation_unit external_declaration												{ 
-																							printf("translation_unit/translation_unit external_declaration (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"translation_unit/translation_unit external_declaration (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							fprintf(vbFPtr, "%s",$2);
+																							printf("%s",$2);
 																						}
 	;
 
 external_declaration
-	: function_definition																{ printf("external_declaration/function_definition (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	: function_definition																{ fprintf(logFPtr,"external_declaration/function_definition (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	| declaration																		{ 
-																							printf("external_declaration/declaration (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); /*Allocating space for the expression String*/
+																							fprintf(logFPtr,"external_declaration/declaration (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); /*Allocating space for the expression String*/
 																							char *external_declaration;
 																							external_declaration=(char *)malloc(((strlen($1)+1)+20)*sizeof(char));
 																							sprintf(external_declaration, "Public Shared%s",&($1)[3]);
@@ -1057,10 +1060,10 @@ external_declaration
 
 function_definition
 	: declaration_specifiers declarator declaration_list compound_statement				{ 
-																							printf("function_definition/eclaration_specifiers declarator declaration_list compound_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
+																							fprintf(logFPtr,"function_definition/eclaration_specifiers declarator declaration_list compound_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
 																						}
 	| declaration_specifiers declarator compound_statement								{ 
-																							printf("function_definition/declaration_specifiers declarator compound_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							fprintf(logFPtr,"function_definition/declaration_specifiers declarator compound_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							//fprintf(vbFPtr, "Module mainModule\n\tSub Main()\n%s\n\tEnd Sub\nEnd Module",InsertTab($3));
 																							
 																							/*Allocating space for the expression String*/
@@ -1072,19 +1075,19 @@ function_definition
 																							/*Unallocate the space used for the terms*/
 																							free($1);
 																						}
-	| declarator declaration_list compound_statement									{ printf("function_definition/declarator declaration_list compound_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| declarator compound_statement														{ printf("function_definition/declarator compound_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| declarator declaration_list compound_statement									{ fprintf(logFPtr,"function_definition/declarator declaration_list compound_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| declarator compound_statement														{ fprintf(logFPtr,"function_definition/declarator compound_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	;
 
 %%
 void yyerror(char *s)
 {  
 	//fprintf(stderr, "the error at column %d and line %d : %s and i = %d\n",column+1,line+1,s,i);
-	fprintf(stderr, "Syntax error : %s at column %d and line %d\n", s, column+1, line+1);
+	fprintf(stderr, "%d\n%d\nSyntax error : %s\n", line+1, column+1, s);
 	FILE *fPtr;
 	char result[100];
 	fPtr = fopen("Syntax_error.txt", "w");
-	sprintf(result, "Syntax error : %s at column %d and line %d\n", s, column+1, line+1); 
+	sprintf(result, "%d\n%d\nSyntax error : %s\n", line+1, column+1, s); 
     if(fPtr == NULL)
     {
         /* File not created hence exit */
@@ -1115,6 +1118,13 @@ int main(void)
 	{
 		/* File not created hence exit */
 		printf("Unable to create VB file.\n");
+		exit(EXIT_FAILURE);
+	}
+	logFPtr = fopen("Log.txt", "w");
+	if(logFPtr == NULL)
+	{
+		/* File not created hence exit */
+		printf("Unable to create Log file.\n");
 		exit(EXIT_FAILURE);
 	}
 	yyparse();

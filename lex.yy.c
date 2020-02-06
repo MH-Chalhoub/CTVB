@@ -466,11 +466,12 @@ char *yytext;
 #include <string.h>
 #define YYSTYPE char
 
+FILE *logFPtr;
 int line = 0;
 int column = 0;
 char *p;
 void count();
-#line 474 "lex.yy.c"
+#line 475 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -621,10 +622,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 19 "ctvb.l"
+#line 20 "ctvb.l"
 
 	/*------------------------Keywords------------------------*/
-#line 628 "lex.yy.c"
+#line 629 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -709,332 +710,332 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 21 "ctvb.l"
+#line 22 "ctvb.l"
 { count(); p=(char *)malloc((strlen("Char")+1)*sizeof(char)); strcpy(p,"Char"); yylval.charval=p; return(CHAR); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 22 "ctvb.l"
+#line 23 "ctvb.l"
 { count(); p=(char *)malloc((strlen("Const")+1)*sizeof(char)); strcpy(p,"Const"); yylval.charval=p; return(CONST); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 23 "ctvb.l"
+#line 24 "ctvb.l"
 { count(); p=(char *)malloc((strlen("Double")+1)*sizeof(char)); strcpy(p,"Double"); yylval.charval=p; return(DOUBLE); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 24 "ctvb.l"
+#line 25 "ctvb.l"
 { count(); p=(char *)malloc((strlen("Else")+1)*sizeof(char)); strcpy(p,"Else"); yylval.charval=p; return(ELSE); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 25 "ctvb.l"
+#line 26 "ctvb.l"
 { count(); p=(char *)malloc((strlen("Single")+1)*sizeof(char)); strcpy(p,"Single"); yylval.charval=p; return(FLOAT); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 26 "ctvb.l"
+#line 27 "ctvb.l"
 { count(); p=(char *)malloc((strlen("For")+1)*sizeof(char)); strcpy(p,"For"); yylval.charval=p; return(FOR); }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 27 "ctvb.l"
+#line 28 "ctvb.l"
 { count(); p=(char *)malloc((strlen("If")+1)*sizeof(char)); strcpy(p,"If"); yylval.charval=p; return(IF); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 28 "ctvb.l"
+#line 29 "ctvb.l"
 { count(); p=(char *)malloc((strlen("Integer")+1)*sizeof(char)); strcpy(p,"Integer"); yylval.charval=p; return(INT); }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 29 "ctvb.l"
+#line 30 "ctvb.l"
 { count(); p=(char *)malloc((strlen("Long")+1)*sizeof(char)); strcpy(p,"Long"); yylval.charval=p; return(LONG); }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 30 "ctvb.l"
+#line 31 "ctvb.l"
 { count(); p=(char *)malloc((strlen("return")+1)*sizeof(char)); strcpy(p,"return"); yylval.charval=p; return(RETURN); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 31 "ctvb.l"
+#line 32 "ctvb.l"
 { count(); p=(char *)malloc((strlen("Short")+1)*sizeof(char)); strcpy(p,"Short"); yylval.charval=p; return(SHORT); }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 32 "ctvb.l"
+#line 33 "ctvb.l"
 { count(); p=(char *)malloc((strlen("s")+1)*sizeof(char)); strcpy(p,"s"); yylval.charval=p; return(SIGNED); }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 33 "ctvb.l"
+#line 34 "ctvb.l"
 { count(); p=(char *)malloc((strlen("SizeOf")+1)*sizeof(char)); strcpy(p,"SizeOf"); yylval.charval=p; return(SIZEOF); }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 34 "ctvb.l"
+#line 35 "ctvb.l"
 { count(); p=(char *)malloc((strlen("u")+1)*sizeof(char)); strcpy(p,"u"); yylval.charval=p; return(UNSIGNED); }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 35 "ctvb.l"
+#line 36 "ctvb.l"
 { count(); p=(char *)malloc((strlen("")+1)*sizeof(char)); strcpy(p,""); yylval.charval=p; return(VOID); }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 36 "ctvb.l"
+#line 37 "ctvb.l"
 { count(); p=(char *)malloc((strlen("While")+1)*sizeof(char)); strcpy(p,"While"); yylval.charval=p; return(WHILE); }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 37 "ctvb.l"
+#line 38 "ctvb.l"
 { count(); p=(char *)malloc((strlen("Console.Write")+1)*sizeof(char)); strcpy(p,"Console.Write"); yylval.charval=p; return(PRINTF); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 38 "ctvb.l"
+#line 39 "ctvb.l"
 { count(); p=(char *)malloc((strlen("Console.ReadLine")+1)*sizeof(char)); strcpy(p,"Console.ReadLine"); yylval.charval=p; return(SCANF); }
 	YY_BREAK
 /*--------------------------------------------------------*/
 /*------------------------Identifier----------------------*/
 case 19:
 YY_RULE_SETUP
-#line 42 "ctvb.l"
+#line 43 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(IDENTIFIER); }
 	YY_BREAK
 /*--------------------------------------------------------*/
 /*------------------------CONSTANT----------------------*/
 case 20:
 YY_RULE_SETUP
-#line 46 "ctvb.l"
+#line 47 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(CONSTANT); }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 47 "ctvb.l"
+#line 48 "ctvb.l"
 
 	YY_BREAK
 /*--------------------------------------------------------*/
 /*----------------------String Literal--------------------*/
 case 22:
 YY_RULE_SETUP
-#line 51 "ctvb.l"
+#line 52 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(STRING_LITERAL); }
 	YY_BREAK
 /*--------------------------------------------------------*/
 /*------------------------Operators-----------------------*/
 case 23:
 YY_RULE_SETUP
-#line 55 "ctvb.l"
+#line 56 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(ADD_ASSIGN); }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 56 "ctvb.l"
+#line 57 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(SUB_ASSIGN); }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 57 "ctvb.l"
+#line 58 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(MUL_ASSIGN); }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 58 "ctvb.l"
+#line 59 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(DIV_ASSIGN); }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 59 "ctvb.l"
+#line 60 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(MOD_ASSIGN); }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 60 "ctvb.l"
+#line 61 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(AND_ASSIGN); }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 61 "ctvb.l"
+#line 62 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(XOR_ASSIGN); }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 62 "ctvb.l"
+#line 63 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(OR_ASSIGN); }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 63 "ctvb.l"
+#line 64 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(INC_OP); }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 64 "ctvb.l"
+#line 65 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(DEC_OP); }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 65 "ctvb.l"
+#line 66 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(AND_OP); }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 66 "ctvb.l"
+#line 67 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(OR_OP); }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 67 "ctvb.l"
+#line 68 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(LE_OP); }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 68 "ctvb.l"
+#line 69 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(GE_OP); }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 69 "ctvb.l"
+#line 70 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(EQ_OP); }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 70 "ctvb.l"
+#line 71 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(NE_OP); }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 71 "ctvb.l"
+#line 72 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(';'); }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 72 "ctvb.l"
+#line 73 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return('{'); }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 73 "ctvb.l"
+#line 74 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return('}'); }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 74 "ctvb.l"
+#line 75 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(','); }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 75 "ctvb.l"
+#line 76 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(':'); }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 76 "ctvb.l"
+#line 77 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return('='); }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 77 "ctvb.l"
+#line 78 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return('('); }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 78 "ctvb.l"
+#line 79 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(')'); }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 79 "ctvb.l"
+#line 80 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return('['); }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 80 "ctvb.l"
+#line 81 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return(']'); }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 81 "ctvb.l"
+#line 82 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return('.'); }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 82 "ctvb.l"
+#line 83 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return('&'); }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 83 "ctvb.l"
+#line 84 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return('!'); }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 84 "ctvb.l"
+#line 85 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return('~'); }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 85 "ctvb.l"
+#line 86 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return('-'); }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 86 "ctvb.l"
+#line 87 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return('+'); }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 87 "ctvb.l"
+#line 88 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return('*'); }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 88 "ctvb.l"
+#line 89 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return('/'); }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 89 "ctvb.l"
+#line 90 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return('%'); }
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 90 "ctvb.l"
+#line 91 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return('<'); }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 91 "ctvb.l"
+#line 92 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return('>'); }
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 92 "ctvb.l"
+#line 93 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return('^'); }
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 93 "ctvb.l"
+#line 94 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return('|'); }
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 94 "ctvb.l"
+#line 95 "ctvb.l"
 { count(); p=(char *)malloc((strlen(yytext)+1)*sizeof(char)); strcpy(p,yytext); yylval.charval=p; return('?'); }
 	YY_BREAK
 /*--------------------------------------------------------*/
 /*--------------------Special Char------------------------*/
 case 63:
 YY_RULE_SETUP
-#line 98 "ctvb.l"
+#line 99 "ctvb.l"
 { count(); }
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 99 "ctvb.l"
+#line 100 "ctvb.l"
 { 
 					printf("Lexical error : Unknown character ->%s<- at column %d and line %d\n", yytext, column+1, line+1); 
 					FILE *fPtr;
@@ -1054,10 +1055,10 @@ YY_RULE_SETUP
 /*--------------------------------------------------------*/
 case 65:
 YY_RULE_SETUP
-#line 116 "ctvb.l"
+#line 117 "ctvb.l"
 ECHO;
 	YY_BREAK
-#line 1061 "lex.yy.c"
+#line 1062 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1943,7 +1944,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 116 "ctvb.l"
+#line 117 "ctvb.l"
 
 
 
@@ -1956,7 +1957,15 @@ void count()
 		{
 			column = 0;
 			line++;
-			printf("\n");
+			//printf("\n");
+		logFPtr = fopen("Log.txt", "a+");
+		if(logFPtr == NULL)
+		{
+			/* File not created hence exit */
+			printf("Unable to create Log file.\n");
+			exit(EXIT_FAILURE);
+		}
+		fprintf(logFPtr,"\n");
 		}
 		else if (yytext[i] == '\t')
 			column += 4 - (column % 4);

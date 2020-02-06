@@ -10,6 +10,7 @@ L			[a-zA-Z_]
 #include <string.h>
 #define YYSTYPE char
 
+FILE *logFPtr;
 int line = 0;
 int column = 0;
 char *p;
@@ -125,7 +126,15 @@ void count()
 		{
 			column = 0;
 			line++;
-			printf("\n");
+			//printf("\n");
+		logFPtr = fopen("Log.txt", "a+");
+		if(logFPtr == NULL)
+		{
+			/* File not created hence exit */
+			printf("Unable to create Log file.\n");
+			exit(EXIT_FAILURE);
+		}
+		fprintf(logFPtr,"\n");
 		}
 		else if (yytext[i] == '\t')
 			column += 4 - (column % 4);
