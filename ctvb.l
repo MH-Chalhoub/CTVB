@@ -34,6 +34,8 @@ void count();
 "unsigned"		{ count(); p=(char *)malloc((strlen("u")+1)*sizeof(char)); strcpy(p,"u"); yylval.charval=p; return(UNSIGNED); }
 "void"			{ count(); p=(char *)malloc((strlen("")+1)*sizeof(char)); strcpy(p,""); yylval.charval=p; return(VOID); }
 "while"			{ count(); p=(char *)malloc((strlen("While")+1)*sizeof(char)); strcpy(p,"While"); yylval.charval=p; return(WHILE); }
+"printf"		{ count(); p=(char *)malloc((strlen("Console.Write")+1)*sizeof(char)); strcpy(p,"Console.Write"); yylval.charval=p; return(PRINTF); }
+"scanf"			{ count(); p=(char *)malloc((strlen("Console.ReadLine")+1)*sizeof(char)); strcpy(p,"Console.ReadLine"); yylval.charval=p; return(SCANF); }
 	/*--------------------------------------------------------*/
 
 	/*------------------------Identifier----------------------*/

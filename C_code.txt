@@ -1,4 +1,6 @@
+int a;
+int b;
 void main()
 {
-	int a=3,b,c,d=5,q;
+	int a(a,c,v) = f(a);
 }

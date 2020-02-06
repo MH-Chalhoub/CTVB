@@ -35,7 +35,7 @@
 /* "%code requires" blocks.  */
 
 /* Line 1676 of yacc.c  */
-#line 37 "ctvb.y"
+#line 96 "ctvb.y"
 
     typedef struct node {
         char * arg1;
@@ -92,7 +92,9 @@
      ELSE = 291,
      WHILE = 292,
      FOR = 293,
-     RETURN = 294
+     RETURN = 294,
+     PRINTF = 295,
+     SCANF = 296
    };
 #endif
 /* Tokens.  */
@@ -133,6 +135,8 @@
 #define WHILE 292
 #define FOR 293
 #define RETURN 294
+#define PRINTF 295
+#define SCANF 296
 
 
 
@@ -142,18 +146,18 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 29 "ctvb.y"
+#line 87 "ctvb.y"
  char* charval;
 
 /* Line 1676 of yacc.c  */
-#line 47 "ctvb.y"
+#line 106 "ctvb.y"
 
     Args args;
 
 
 
 /* Line 1676 of yacc.c  */
-#line 157 "y.tab.h"
+#line 161 "y.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

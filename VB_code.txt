@@ -1,3 +1,10 @@
-Dim a, b, c, d, q as Integer
-a=3
-d=5
+Public Shared a as Integer
+
+Public Shared b as Integer
+Module mainModule
+	Sub Main()
+		Dim a as Integer
+		a=f(a)
+		
+	End Sub
+End Module
