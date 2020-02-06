@@ -2,5 +2,16 @@ int a;
 int b;
 void main()
 {
-	int a(a,c,v) = f(a);
+	int number1, number2, sum;
+	printf("Enter two integers: ");
+	scanf("%d %d", number2);
+	sum = number1 + number2;      
+    
+
+	printf("Enter two integers: ");
+	scanf("%d %d", number2);
+	sum = number1 + number2;      
+    
+	printf("%d + %d = %d", number1, number2, sum);
+  	return 0;
 }

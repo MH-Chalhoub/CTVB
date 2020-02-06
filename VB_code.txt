@@ -3,8 +3,15 @@ Public Shared a as Integer
 Public Shared b as Integer
 Module mainModule
 	Sub Main()
-		Dim a as Integer
-		a=f(a)
+		Dim number1, number2, sum as Integer
+		
+		Console.Write ("Enter two integers: ")
+		number2 = Console.ReadLine()
+		sum=number1+number2
+		Console.Write ("Enter two integers: ")
+		number2 = Console.ReadLine()
+		sum=number1+number2
+		Console.Write ("{0} + {1} = {2}", number1, number2, sum)
 		
 	End Sub
 End Module

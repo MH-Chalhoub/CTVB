@@ -71,6 +71,71 @@ char* split(char *str,char *delim,int pos)
 	else
 		return token2;
 }
+  
+int countNb(long num)
+{
+    int count=0;
+    while(num != 0)
+    {
+        /* Increment digit count */
+        count++;
+
+        /* Remove last digit of 'num' */
+        num /= 10;
+    }
+    return count;
+}
+// Function to replace a string with another 
+// string 
+char *replaceWord(const char *s, const char *oldW) 
+{ 
+    char *result; 
+    int i, cnt = 0; 
+    int oldWlen = strlen(oldW); 
+  
+    // Counting the number of times old word 
+    // occur in the string 
+    for (i = 0; s[i] != '\0'; i++) 
+    { 
+        if (strstr(&s[i], oldW) == &s[i]) 
+        { 
+            cnt++; 
+  
+            // Jumping to index after the old word. 
+            i += oldWlen - 1; 
+        } 
+    } 
+    
+    int newWlen = countNb(cnt)+2; 		//is the size of {nb}
+    // Making new string of enough length 
+    result = (char *)malloc(i + cnt * (newWlen - (oldWlen +1)) + 1); 
+	
+	char *newW = (char *)malloc((newWlen + 1)*sizeof(char)); 
+	int index = 0;
+	char *stringIndex = (char *)malloc((newWlen + 1)*sizeof(char)); 
+    i = 0; 
+    while (*s) 
+    { 
+        // compare the substring with the result 
+        if (strstr(s, oldW) == s) 
+        { 
+			sprintf(stringIndex, "%d", index);
+			
+			strcpy(newW,"{");
+			strcat(newW,stringIndex);
+			strcat(newW,"}");
+			index++;
+            strcpy(&result[i], newW); 
+            i += newWlen; 
+            s += oldWlen+1; 
+        } 
+        else
+            result[i++] = *s++; 
+    } 
+  
+    result[i] = '\0'; 
+    return result; 
+} 
 void yyerror(char *);
 int yylex(void);
 int sym[26];
@@ -89,8 +154,8 @@ extern int line;
 
 %type <charval> declarator initializer declaration_specifiers declaration declaration_list
 %type <charval> primary_expression postfix_expression argument_expression_list unary_expression unary_operator cast_expression multiplicative_expression additive_expression shift_expression relational_expression equality_expression and_expression exclusive_or_expression inclusive_or_expression logical_and_expression logical_or_expression conditional_expression assignment_expression assignment_operator expression
-%type <charval> statement compound_statement selection_statement iteration_statement expression_statement statement_list
-%type <charval> translation_unit function_definition external_declaration
+%type <charval> statement compound_statement selection_statement iteration_statement expression_statement statement_list scanf_statment printf_statment jump_statement
+%type <charval> translation_unit function_definition external_declaration arg_list
 %type <args> init_declarator_list init_declarator
 
 %code requires {
@@ -620,6 +685,8 @@ statement
 	| selection_statement																{ printf("statement/selection_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	| iteration_statement																{ printf("statement/iteration_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	| jump_statement																	{ printf("statement/jump_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| printf_statment																	{ printf("statement/printf_statment (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
+	| scanf_statment																	{ printf("statement/scanf_statment (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	;
 
 compound_statement
@@ -861,9 +928,109 @@ iteration_statement
 																						}
 	;
 
+printf_statment
+	: PRINTF '(' STRING_LITERAL arg_list ')' ';'										{ 
+																							printf("printf_statment/PRINTF '(' STRING_LITERAL arg_list ')' ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							
+																							/*Allocating space for the expression String*/
+																							char *printf_statment;
+																							//fprintf(vbFPtr, "%s = %s()",$5,$1);
+																							printf_statment=(char *)malloc(((strlen($1)+1)+(strlen($3)+1)+(strlen($5)+1)+30)*sizeof(char));
+																							sprintf(printf_statment, "%s (%s%s)",$1,replaceWord($3, "%"),$4);
+																							$$=printf_statment;
+																							
+																							/*Unallocate the space used for the terms*/
+																							free($1);
+																							free($2);
+																							free($3);
+																							free($4);
+																							free($5);
+																							free($6);
+																						}
+	| PRINTF '(' STRING_LITERAL ')' ';'													{ 
+																							printf("printf_statment/PRINTF '(' STRING_LITERAL arg_list ')' ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							
+																							/*Allocating space for the expression String*/
+																							char *printf_statment;
+																							//fprintf(vbFPtr, "%s = %s()",$5,$1);
+																							printf_statment=(char *)malloc(((strlen($1)+1)+(strlen($3)+1)+30)*sizeof(char));
+																							sprintf(printf_statment, "%s (%s)",$1,$3);
+																							$$=printf_statment;
+																							
+																							/*Unallocate the space used for the terms*/
+																							free($1);
+																							free($2);
+																							free($3);
+																							free($4);
+																							free($5);
+																						}
+	;
+
+scanf_statment
+	: SCANF '(' STRING_LITERAL ',' IDENTIFIER ')' ';'									{ 
+																							printf("scanf_statment/SCANF '(' STRING_LITERAL ',' IDENTIFIER ')' ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							
+																							/*Allocating space for the expression String*/
+																							char *scanf_statment;
+																							//fprintf(vbFPtr, "%s = %s()",$5,$1);
+																							scanf_statment=(char *)malloc(((strlen($3)+1)+(strlen($5)+1)+30)*sizeof(char));
+																							sprintf(scanf_statment, "%s = %s()",$5,$1);
+																							$$=scanf_statment;
+																							
+																							/*Unallocate the space used for the terms*/
+																							free($1);
+																							free($2);
+																							free($3);
+																							free($4);
+																							free($5);
+																							free($6);
+																							free($7);
+																						}
+	
+arg_list
+	: ',' IDENTIFIER						  											{ 
+																							printf("arg_list/',' IDENTIFIER (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							
+																							/*Allocating space for the expression String*/
+																							char *arg_list;
+																							arg_list=(char *)malloc(((strlen($1)+1)+(strlen($2)+1))*sizeof(char));
+																							sprintf(arg_list, "%s %s",$1,$2);
+																							$$=arg_list;
+																							
+																							/*Unallocate the space used for the terms*/
+																							free($1);
+																							free($2);
+																						}
+	| arg_list ',' IDENTIFIER						  									{ 
+																							printf("arg_list/arg_list ',' IDENTIFIER (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							
+																							/*Allocating space for the expression String*/
+																							char *arg_list;
+																							arg_list=(char *)malloc(((strlen($1)+1)+(strlen($2)+1)+(strlen($3)+1))*sizeof(char));
+																							sprintf(arg_list, "%s%s %s",$1,$2,$3);
+																							$$=arg_list;
+																							
+																							/*Unallocate the space used for the terms*/
+																							free($1);
+																							free($2);
+																						}
+	;
+
 jump_statement
-	: RETURN ';'						  												{ printf("jump_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
-	| RETURN expression ';'
+	: RETURN ';'						  												{ 
+																							printf("jump_statement/RETURN ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							char *jump_statement;
+																							jump_statement=(char *)malloc(sizeof(char));
+																							strcpy(jump_statement,"");
+																							$$=jump_statement;
+																						}
+	| RETURN expression ';'			  													{ 
+																							printf("jump_statement/RETURN expression ';'	 (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							char *jump_statement;
+																							jump_statement=(char *)malloc(sizeof(char));
+																							strcpy(jump_statement,"");
+																							$$=jump_statement;
+																						}
 	;
 
 translation_unit
