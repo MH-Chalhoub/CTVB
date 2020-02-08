@@ -1,0 +1,5 @@
+Module mainModule
+	Sub Main()
+		
+	End Sub
+End Module

@@ -727,9 +727,9 @@ static const yytype_uint16 yyrline[] =
      642,   643,   644,   645,   646,   647,   648,   649,   653,   657,
      661,   662,   663,   664,   665,   669,   670,   674,   675,   679,
      680,   684,   685,   686,   687,   688,   689,   690,   694,   708,
-     719,   730,   748,   769,   770,   788,   789,   807,   812,   819,
-     837,   859,   876,   902,   933,   951,   971,   992,  1005,  1021,
-    1028,  1038,  1043,  1051,  1052,  1062,  1065,  1078,  1079
+     719,   730,   748,   770,   771,   789,   790,   808,   816,   823,
+     841,   863,   880,   906,   937,   955,   975,   996,  1009,  1025,
+    1032,  1042,  1047,  1055,  1056,  1066,  1069,  1082,  1083
 };
 #endif
 
@@ -3022,14 +3022,14 @@ yyreduce:
   case 113:
 
 /* Line 1455 of yacc.c  */
-#line 769 "ctvb.y"
+#line 770 "ctvb.y"
     { fprintf(logFPtr,"declaration_list/declaration (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
     break;
 
   case 114:
 
 /* Line 1455 of yacc.c  */
-#line 770 "ctvb.y"
+#line 771 "ctvb.y"
     {
 																							fprintf(logFPtr,"declaration_list/declaration_list declaration (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
 																							/*Allocating space for the expression String*/
@@ -3050,14 +3050,14 @@ yyreduce:
   case 115:
 
 /* Line 1455 of yacc.c  */
-#line 788 "ctvb.y"
+#line 789 "ctvb.y"
     { fprintf(logFPtr,"statement_list/statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
     break;
 
   case 116:
 
 /* Line 1455 of yacc.c  */
-#line 789 "ctvb.y"
+#line 790 "ctvb.y"
     { 
 																							fprintf(logFPtr,"statement_list/statement_list statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							/*Allocating space for the expression String*/
@@ -3078,18 +3078,21 @@ yyreduce:
   case 117:
 
 /* Line 1455 of yacc.c  */
-#line 807 "ctvb.y"
+#line 808 "ctvb.y"
     {
 																							fprintf(logFPtr,"expression_statement/';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							char *expression_statement;
+																							expression_statement=(char *)malloc(sizeof(char));
+																							strcpy(expression_statement, "");
 																							free((yyvsp[(1) - (1)].charval));
-																							(yyval.charval)="";
+																							(yyval.charval)=expression_statement;
 																						}
     break;
 
   case 118:
 
 /* Line 1455 of yacc.c  */
-#line 812 "ctvb.y"
+#line 816 "ctvb.y"
     {
 																							fprintf(logFPtr,"expression_statement/expression ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							free((yyvsp[(2) - (2)].charval));
@@ -3099,7 +3102,7 @@ yyreduce:
   case 119:
 
 /* Line 1455 of yacc.c  */
-#line 819 "ctvb.y"
+#line 823 "ctvb.y"
     { 
 																							fprintf(logFPtr,"selection_statement/IF '(' expression ')' statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
@@ -3123,7 +3126,7 @@ yyreduce:
   case 120:
 
 /* Line 1455 of yacc.c  */
-#line 837 "ctvb.y"
+#line 841 "ctvb.y"
     {
 																							fprintf(logFPtr,"selection_statement/IF '(' expression ')' statement ELSE statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
@@ -3148,7 +3151,7 @@ yyreduce:
   case 121:
 
 /* Line 1455 of yacc.c  */
-#line 859 "ctvb.y"
+#line 863 "ctvb.y"
     { 
 																							fprintf(logFPtr,"iteration_statement/WHILE '(' expression ')' statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
@@ -3171,7 +3174,7 @@ yyreduce:
   case 122:
 
 /* Line 1455 of yacc.c  */
-#line 876 "ctvb.y"
+#line 880 "ctvb.y"
     { 
 																							fprintf(logFPtr,"iteration_statement/FOR '(' expression_statement expression_statement ')' statement (Col:%d,Ln:%d)	 %d\n",column+1,line+1,i++); 
 																							
@@ -3203,7 +3206,7 @@ yyreduce:
   case 123:
 
 /* Line 1455 of yacc.c  */
-#line 902 "ctvb.y"
+#line 906 "ctvb.y"
     { 
 																							fprintf(logFPtr,"iteration_statement/FOR '(' expression_statement expression_statement expression ')' statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
@@ -3237,7 +3240,7 @@ yyreduce:
   case 124:
 
 /* Line 1455 of yacc.c  */
-#line 933 "ctvb.y"
+#line 937 "ctvb.y"
     { 
 																							fprintf(logFPtr,"printf_statment/PRINTF '(' STRING_LITERAL arg_list ')' ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
@@ -3261,7 +3264,7 @@ yyreduce:
   case 125:
 
 /* Line 1455 of yacc.c  */
-#line 951 "ctvb.y"
+#line 955 "ctvb.y"
     { 
 																							fprintf(logFPtr,"printf_statment/PRINTF '(' STRING_LITERAL arg_list ')' ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
@@ -3284,7 +3287,7 @@ yyreduce:
   case 126:
 
 /* Line 1455 of yacc.c  */
-#line 971 "ctvb.y"
+#line 975 "ctvb.y"
     { 
 																							fprintf(logFPtr,"scanf_statment/SCANF '(' STRING_LITERAL ',' IDENTIFIER ')' ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
@@ -3309,7 +3312,7 @@ yyreduce:
   case 127:
 
 /* Line 1455 of yacc.c  */
-#line 992 "ctvb.y"
+#line 996 "ctvb.y"
     { 
 																							fprintf(logFPtr,"arg_list/',' IDENTIFIER (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
@@ -3328,7 +3331,7 @@ yyreduce:
   case 128:
 
 /* Line 1455 of yacc.c  */
-#line 1005 "ctvb.y"
+#line 1009 "ctvb.y"
     { 
 																							fprintf(logFPtr,"arg_list/arg_list ',' IDENTIFIER (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							
@@ -3347,7 +3350,7 @@ yyreduce:
   case 129:
 
 /* Line 1455 of yacc.c  */
-#line 1021 "ctvb.y"
+#line 1025 "ctvb.y"
     { 
 																							fprintf(logFPtr,"jump_statement/RETURN ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							char *jump_statement;
@@ -3360,7 +3363,7 @@ yyreduce:
   case 130:
 
 /* Line 1455 of yacc.c  */
-#line 1028 "ctvb.y"
+#line 1032 "ctvb.y"
     { 
 																							fprintf(logFPtr,"jump_statement/RETURN expression ';'	 (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							char *jump_statement;
@@ -3373,7 +3376,7 @@ yyreduce:
   case 131:
 
 /* Line 1455 of yacc.c  */
-#line 1038 "ctvb.y"
+#line 1042 "ctvb.y"
     { 
 																							fprintf(logFPtr,"translation_unit/external_declaration (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							fprintf(vbFPtr, "%s\n",(yyvsp[(1) - (1)].charval));
@@ -3384,7 +3387,7 @@ yyreduce:
   case 132:
 
 /* Line 1455 of yacc.c  */
-#line 1043 "ctvb.y"
+#line 1047 "ctvb.y"
     { 
 																							fprintf(logFPtr,"translation_unit/translation_unit external_declaration (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							fprintf(vbFPtr, "%s",(yyvsp[(2) - (2)].charval));
@@ -3395,14 +3398,14 @@ yyreduce:
   case 133:
 
 /* Line 1455 of yacc.c  */
-#line 1051 "ctvb.y"
+#line 1055 "ctvb.y"
     { fprintf(logFPtr,"external_declaration/function_definition (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
     break;
 
   case 134:
 
 /* Line 1455 of yacc.c  */
-#line 1052 "ctvb.y"
+#line 1056 "ctvb.y"
     { 
 																							fprintf(logFPtr,"external_declaration/declaration (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); /*Allocating space for the expression String*/
 																							char *external_declaration;
@@ -3415,7 +3418,7 @@ yyreduce:
   case 135:
 
 /* Line 1455 of yacc.c  */
-#line 1062 "ctvb.y"
+#line 1066 "ctvb.y"
     { 
 																							fprintf(logFPtr,"function_definition/eclaration_specifiers declarator declaration_list compound_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++);
 																						}
@@ -3424,7 +3427,7 @@ yyreduce:
   case 136:
 
 /* Line 1455 of yacc.c  */
-#line 1065 "ctvb.y"
+#line 1069 "ctvb.y"
     { 
 																							fprintf(logFPtr,"function_definition/declaration_specifiers declarator compound_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
 																							//fprintf(vbFPtr, "Module mainModule\n\tSub Main()\n%s\n\tEnd Sub\nEnd Module",InsertTab($3));
@@ -3443,21 +3446,21 @@ yyreduce:
   case 137:
 
 /* Line 1455 of yacc.c  */
-#line 1078 "ctvb.y"
+#line 1082 "ctvb.y"
     { fprintf(logFPtr,"function_definition/declarator declaration_list compound_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
     break;
 
   case 138:
 
 /* Line 1455 of yacc.c  */
-#line 1079 "ctvb.y"
+#line 1083 "ctvb.y"
     { fprintf(logFPtr,"function_definition/declarator compound_statement (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 3461 "y.tab.c"
+#line 3464 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -3669,23 +3672,24 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 1082 "ctvb.y"
+#line 1086 "ctvb.y"
 
 void yyerror(char *s)
 {  
 	//fprintf(stderr, "the error at column %d and line %d : %s and i = %d\n",column+1,line+1,s,i);
-	fprintf(stderr, "%d\n%d\nSyntax error : %s\n", line+1, column+1, s);
+	fprintf(stderr, "(Line:%d, Colonne:%d)\nSyntax error : %s\n", line+1, column+1, s);
 	FILE *fPtr;
 	char result[100];
 	fPtr = fopen("Syntax_error.txt", "w");
-	sprintf(result, "%d\n%d\nSyntax error : %s\n", line+1, column+1, s); 
+	//sprintf(result, "(Line:%d, Colonne:%d)\nSyntax error : %s\n", line+1, column+1, s); 
     if(fPtr == NULL)
     {
         /* File not created hence exit */
         printf("Unable to create error file.\n");
         exit(EXIT_FAILURE);
     }
-    fputs(result, fPtr);
+    // fputs(result, fPtr);
+	fprintf(fPtr, "(Line:%d, Colonne:%d)\nSyntax error : %s\n", line+1, column+1, s);
     fclose(fPtr);
 }
 void freeArgs(Args a)

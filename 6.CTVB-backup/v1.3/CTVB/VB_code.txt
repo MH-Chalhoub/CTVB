@@ -1,0 +1,5 @@
+If (i==0) Then
+
+Dim a as Integer
+
+End If

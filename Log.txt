@@ -1,2 +1,0 @@
-direct_declarator/IDENTIFIER (Col:8,Ln:1) 0
-declarator/direct_declarator (Col:13,Ln:1) 1

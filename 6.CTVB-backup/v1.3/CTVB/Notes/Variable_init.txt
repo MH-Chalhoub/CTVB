@@ -1,0 +1,12 @@
+C Code				VB Code
+int a = 3;		-->		Dim a As Integer = 3
+(1)INT -> type_specifier -> declaration_specifiers
+(2)IDENTIFIER -> direct_declarator -> declarator 
+(3)CONSTANT -> primary_expression -> postfix_expression -> unary_expression -> cast_expression -> multiplicative_expression -> additive_expression -> shift_expression -> relational_expression -> equality_expression -> and_expression -> exclusive_or_expression -> inclusive_or_expression -> logical_and_expression -> logical_or_expression -> conditional_expression -> assignment_expression -> initializer
+
+(1)INT -> declaration_specifiers
+(2)IDENTIFIER -> declarator 
+(3)CONSTANT -> initializer
+
+(4)declarator '=' initializer -> init_declarator -> init_declarator_list
+(5)declaration_specifiers init_declarator_list ';' -> declaration -> declaration_list

@@ -1,0 +1,6 @@
+How to Create a Compiler ideas : https://www.youtube.com/watch?v=eF9qWbuQLuw&vl=en
+ANSI C grammar, Lex specification : https://www.lysator.liu.se/c/ANSI-C-grammar-l.html#VOID
+ANSI C Yacc grammar : https://www.lysator.liu.se/c/ANSI-C-grammar-y.html#declarator
+Flex Manual : https://www.cs.virginia.edu/~cr4bd/flex-manual/index.html#Top
+Bison Manual : http://dinosaur.compilertools.net/bison/bison_1.html
+C Language syntax summary : http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf

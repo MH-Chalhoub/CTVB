@@ -765,6 +765,7 @@ compound_statement
 																						}
 	;
 
+
 declaration_list
 	: declaration																		{ fprintf(logFPtr,"declaration_list/declaration (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); }
 	| declaration_list declaration														{
@@ -806,8 +807,11 @@ statement_list
 expression_statement
 	: ';'																				{
 																							fprintf(logFPtr,"expression_statement/';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
+																							char *expression_statement;
+																							expression_statement=(char *)malloc(sizeof(char));
+																							strcpy(expression_statement, "");
 																							free($1);
-																							$$="";
+																							$$=expression_statement;
 																						}
 	| expression ';'																	{
 																							fprintf(logFPtr,"expression_statement/expression ';' (Col:%d,Ln:%d) %d\n",column+1,line+1,i++); 
@@ -1083,18 +1087,19 @@ function_definition
 void yyerror(char *s)
 {  
 	//fprintf(stderr, "the error at column %d and line %d : %s and i = %d\n",column+1,line+1,s,i);
-	fprintf(stderr, "%d\n%d\nSyntax error : %s\n", line+1, column+1, s);
+	fprintf(stderr, "(Line:%d, Colonne:%d)\nSyntax error : %s\n", line+1, column+1, s);
 	FILE *fPtr;
 	char result[100];
 	fPtr = fopen("Syntax_error.txt", "w");
-	sprintf(result, "%d\n%d\nSyntax error : %s\n", line+1, column+1, s); 
+	//sprintf(result, "(Line:%d, Colonne:%d)\nSyntax error : %s\n", line+1, column+1, s); 
     if(fPtr == NULL)
     {
         /* File not created hence exit */
         printf("Unable to create error file.\n");
         exit(EXIT_FAILURE);
     }
-    fputs(result, fPtr);
+    // fputs(result, fPtr);
+	fprintf(fPtr, "(Line:%d, Colonne:%d)\nSyntax error : %s\n", line+1, column+1, s);
     fclose(fPtr);
 }
 void freeArgs(Args a)
